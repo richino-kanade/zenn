@@ -6,7 +6,7 @@ topics: ["webmcp", "mcp", "ai", "chrome", "agent"]
 published: false
 ---
 
-「MCP[^1]」という言葉は、AIをなんとなく使うようになってからいつのまにか定着した。Anthropicが提唱したMCPは、LLMにローカルファイルやデータベース、APIなどのツールをつなぎ込む仕組みとして急速に普及している。
+「MCP[^1]」という言葉は、AIをなんとなく使うようになってからいつのまにか定着した。Anthropicが提唱したMCPは、LLMにローカルファイルやデータベース、APIなどのツールをつなぎ込む仕組みとして急速に普及している[^2]。
 
 そんな中、ブラウザの標準化コミュニティや各社のプロダクトから「**WebMCP**」という新しい動きが出てきた。
 
@@ -23,17 +23,17 @@ published: false
 
 WebMCPは、ブラウザで開いているWebページ上のJavaScript関数（function）をそのまま叩くだけの仕組みだ。開発者ツールのデバッグコンソールを開いて、ページ上の関数を直接ポチポチ叩く感覚に非常に近い。まさに「クライアント側／ページ内」完結のツール公開インターフェースだ。
 
-なお、仕様のステータスについては正確に把握しておく必要がある。WebMCPはW3Cの正式な勧告（Recommendation）ではなく、W3C Web Machine Learning Community Group（WebML CG）で議論されている提案段階のレポート（Draft Community Group Report / proposed web standard）だ。
+なお、仕様のステータスについては正確に把握しておく必要がある。WebMCPはW3Cの正式な勧告（Recommendation）ではなく、W3C Web Machine Learning Community Group（WebML CG）で議論されている提案段階のレポート（Draft Community Group Report / proposed web standard）だ[^3]。
 
-現行のドラフト仕様（WebML CG draft）では、以下のように `document.modelContext` を通じてツールを登録・取得・実行するAPIが規定されている。
+現行のドラフト仕様（WebML CG draft）では、以下のように `document.modelContext` を通じてツールを登録・取得・実行するAPIが規定されている[^4]。
 
 - `document.modelContext.registerTool(...)`
 - `document.modelContext.getTools(...)`
 - `document.modelContext.executeTool(...)`
 
-Google Chromeの公式ドキュメント（2026年5月公開、8月更新）によると、Chrome 149からOrigin Trialが開始されており、ローカル環境でも `chrome://flags/#enable-webmcp-testing` を有効にすることでテストできる。
+Google Chromeの公式ドキュメント（2026年5月公開、8月更新）によると、Chrome 149からOrigin Trialが開始されており、ローカル環境でも `chrome://flags/#enable-webmcp-testing` を有効にすることでテストできる[^5]。
 
-ちなみに、APIの命名には変遷がある。初期の提案や過去のドキュメントでは `navigator.modelContext` というエントリーポイントが使われていた。例えばCloudflare Browser Runのドキュメント（2026年4月更新）では `navigator.modelContextTesting.listTools` / `executeTool` と記載されている。ドラフトの改訂に伴ってエントリーポイントが `navigator` から `document` へ移行している過渡期であるため、「どちらが正式か」というよりは仕様策定の進展に伴う差分として理解するのが正確だ。
+ちなみに、APIの命名には変遷がある。初期の提案や過去のドキュメントでは `navigator.modelContext` というエントリーポイントが使われていた。例えばCloudflare Browser Runのドキュメント（2026年4月更新）では `navigator.modelContextTesting.listTools` / `executeTool` と記載されている[^6]。ドラフトの改訂に伴ってエントリーポイントが `navigator` から `document` へ移行している過渡期であるため、「どちらが正式か」というよりは仕様策定の進展に伴う差分として理解するのが正確だ。
 
 ## 🧩 なぜWebMCPが必要なのか
 
@@ -43,7 +43,7 @@ Google Chromeの公式ドキュメント（2026年5月公開、8月更新）に�
 
 Webページの見た目やHTML構造は頻繁に変わる。エージェントがスクリーンショットの画像認識やDOMのヒューリスティクスに頼っていると、ボタンの色や配置が少し変わっただけで操作に失敗してしまう。
 
-Chrome公式ドキュメントでも指摘されている通り、「エージェントが画面要素を観察して目的を推測する」よりも、「Webサイト自身がツールの目的（purpose）や入力スキーマを明示的に宣言する」ほうが圧倒的に堅牢だ。
+Chrome公式ドキュメントでも指摘されている通り、「エージェントが画面要素を観察して目的を推測する」よりも、「Webサイト自身がツールの目的（purpose）や入力スキーマを明示的に宣言する」ほうが圧倒的に堅牢だ[^7]。
 
 さらに大きなメリットが、**「人間とエージェントのセッション共有」**だ。
 
@@ -54,22 +54,22 @@ Webサイト側がツールを提供してくれれば、人間がブラウザ�
 WebMCPやブラウザ連携エージェントの動きを見ると、各社のアプローチに興味深い違いが見えてきた。一次資料をもとに3つの軸で比較してみる。
 
 ### 1. Cloudflare: 供給側としての橋渡し
-Cloudflareは、同社のBrowser Run機能においてWebMCPのサポートを提供している（2026年4月更新のドキュメントより）。
+Cloudflareは、同社のBrowser Run機能においてWebMCPのサポートを提供している（2026年4月更新のドキュメントより）[^8]。
 Chrome betaのlab sessionを活用し、`navigator.modelContextTesting` を用いて既存のWebサイトをエージェントが操作できるようにする手順が示されている。
 
 Cloudflareの立ち位置は、どちらかといえば「ツール供給側」だ。サーバーサイドで動作するマネージドブラウザ上でWebMCPのエンドポイントを提供し、外部のエージェントから既存サイトの機能を呼び出せるようにするインフラ側の橋渡しを担っている。
 
 ### 2. Claude: 既存Chromeセッションに乗る使いやすさ
-Anthropicは「Claude in Chrome」を提供している（公式ヘルプおよび公式ブログより）。
+Anthropicは「Claude in Chrome」を提供している（公式ヘルプおよび公式ブログより）[^9][^10]。
 公式ヘルプ「Get started with Claude in Chrome」によると、ユーザーが自分のChromeで、すでに開いている／ログインしたページにおいて画面の読み取り（read）、クリックや入力（click / navigate）、スクリーンショット撮影などを行う設計になっている。
 
 普段使っているChromeをそのまま使うため、既存タブのセッション（ログイン状態やCookie）を引き継げるのが大きな強みだ。
-例えば、Zero Trust（Cloudflare Access 等）で認証制限されている環境でも、「日常のChromeの既存セッションを使うためCookieが残っていればそのまま作業できる」という一般論としては言える。ただし、Zero Trust製品の公式一次情報として「デバイス信頼（Device Trust）まで必ず通る」と確認されたわけではない（この点は未確認だ）。
+例えば、Zero Trust（Cloudflare Access 等）で認証制限されている環境でも、「日常のChromeの既存セッションを使うためCookieが残っていればそのまま作業できる」という一般論としては言える。ただし、Zero Trust製品の公式一次情報として「デバイス信頼（Device Trust）まで必ず通る」と確認されたわけではない（この点は未確認だ）[^11]。
 
 なお、Claude in ChromeがWebMCPの型付き関数呼び出し（typed call）を公式に解釈・実行するかどうかは現時点でドキュメント上未確認だ（GitHubの `anthropics/claude-code#30645` ではWebMCPサポートの要望が挙げられている）。したがって、Claude in Chromeの利便性は「すでにログインしている普段のChromeセッションをそのまま活用できる」という点に基づいている。
 
 ### 3. ChatGPT / Codex desktop: 独自内蔵ブラウザによるセッションの分断
-OpenAIのChatGPTデスクトップアプリでは、「Site tools」としてWebMCPが導入されている（公式ヘルプ「Using site tools in the ChatGPT desktop app」より）。
+OpenAIのChatGPTデスクトップアプリでは、「Site tools」としてWebMCPが導入されている（公式ヘルプ「Using site tools in the ChatGPT desktop app」より）[^12]。
 
 ヘルプ内でも以下のように明記されている。
 - 「Site tools use WebMCP, a proposed web standard（Site toolsは提案中のWeb標準であるWebMCPを使用している）」
@@ -92,18 +92,15 @@ WebMCPを取り巻く現状を整理すると、以下のようになる。
 
 Webページが人間だけでなくAIエージェントにとっても「操作しやすい窓口」を開放していく流れは確実に進んでいる。今後、各ブラウザやエージェント製品がどのエントリーポイントに収束していくのか、引き続き注目していきたいところだ。
 
-## 📚 参考文献
-
-本稿の執筆にあたり参照・確認した一次仕様および関連文献だ（書籍に関しては直接該当する刊行物が確認されていないため、公式仕様・ドキュメントおよび論文を参照している）。
-
-- W3C Web Machine Learning Community Group. "Web Model Context Protocol (WebMCP) - Draft Community Group Report". https://webmachinelearning.github.io/webmcp/ (GitHub: https://github.com/webmachinelearning/webmcp)
-- Google Chrome. "WebMCP: Web Model Context Protocol". https://developer.chrome.com/docs/ai/webmcp (Published: 2026-05-18, Updated: 2026-08-07)
-- Google Chrome. "WebMCP Imperative API". https://developer.chrome.com/docs/ai/webmcp/imperative-api
-- Cloudflare. "WebMCP in Browser Run". https://developers.cloudflare.com/browser-run/features/webmcp/ (Last updated: Apr 23, 2026)
-- OpenAI. "Using site tools in the ChatGPT desktop app". https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app
-- Anthropic. "Get started with Claude in Chrome". https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome
-- Anthropic. "Claude in Chrome is now generally available". https://claude.com/blog/claude-in-chrome-generally-available
-- Hou, X., Zhao, Y., Wang, S., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278. https://doi.org/10.48550/arXiv.2503.23278
-  （※本論文はサーバー側MCPの動向およびセキュリティ脅威に関する研究であり、WebMCPそのものの論文ではない。サーバー側MCPとの対比・背景整理のために摘要を確認している）
-
-  ^1 Model Context Protocol の略。サーバーとしjsonを返却する
+[^1]: Model Context Protocol の略。サーバーとし JSON を返却する
+[^2]: サーバー側MCPの動向およびセキュリティ脅威に関する研究については、Hou, X., Zhao, Y., Wang, S., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278 ( https://doi.org/10.48550/arXiv.2503.23278 ) の摘要などを参照（※本論文はサーバー側MCPに関する研究であり、WebMCPそのものの論文ではない）。
+[^3]: W3C Web Machine Learning Community Group. "Web Model Context Protocol (WebMCP) - Draft Community Group Report". https://webmachinelearning.github.io/webmcp/ (GitHub: https://github.com/webmachinelearning/webmcp)
+[^4]: 命令的APIの詳細については Google Chrome. "WebMCP Imperative API". https://developer.chrome.com/docs/ai/webmcp/imperative-api を参照。
+[^5]: Google Chrome. "WebMCP: Web Model Context Protocol". https://developer.chrome.com/docs/ai/webmcp (Published: 2026-05-18, Updated: 2026-08-07)
+[^6]: Cloudflare. "WebMCP in Browser Run". https://developers.cloudflare.com/browser-run/features/webmcp/ (Last updated: Apr 23, 2026)
+[^7]: Google Chrome. "WebMCP: Web Model Context Protocol". https://developer.chrome.com/docs/ai/webmcp
+[^8]: Cloudflare. "WebMCP in Browser Run". https://developers.cloudflare.com/browser-run/features/webmcp/
+[^9]: Anthropic. "Get started with Claude in Chrome". https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome
+[^10]: Anthropic. "Claude in Chrome is now generally available". https://claude.com/blog/claude-in-chrome-generally-available
+[^11]: Zero Trust（Cloudflare Access 等）環境において、Claude in Chrome 等がデバイス証明書やポスチャ確認などのデバイス信頼（Device Trust）要件を透過的に満たせるかどうかは各社公式一次情報でも未確認。
+[^12]: OpenAI. "Using site tools in the ChatGPT desktop app". https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app
