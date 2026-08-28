@@ -65,7 +65,7 @@ Anthropicは「Claude in Chrome」を提供している（公式ヘルプおよ�
 
 なお、Claude in ChromeがWebMCPの型付き関数呼び出し（typed call）を公式に解釈・実行するかどうかは現時点でドキュメント上未確認だ（GitHubの `anthropics/claude-code#30645` ではWebMCPサポートの要望が挙げられている）。したがって、Claude in Chromeの利便性は「すでにログインしている普段のChromeセッションをそのまま活用できる」という点に基づいている。
 
-### 3. ChatGPT / Codex desktop: 独自内蔵ブラウザによるセッションの分断
+### 3. ChatGPT desktop: 独自内蔵ブラウザによるセッションの分断
 OpenAIのChatGPTデスクトップアプリでは、「Site tools」としてWebMCPが導入されている（公式ヘルプ「Using site tools in the ChatGPT desktop app」より）[^12]。
 
 ヘルプ内でも以下のように明記されている。
@@ -74,6 +74,8 @@ OpenAIのChatGPTデスクトップアプリでは、「Site tools」としてWeb
 - 「The built-in browser has its own browser state. If you are already signed in to the same website in Chrome, you may need to sign in again in the built-in browser（内蔵ブラウザは独自のブラウザ状態を持つため、Chromeですでにログインしていても、内蔵ブラウザ側で再ログインが必要になる場合がある）」
 
 このように、ChatGPTデスクトップアプリの内蔵ブラウザは独自のブラウザ状態を持つため、普段使っているChromeのログインセッションが引き継がれず、内蔵ブラウザ側で個別にログインし直さなければならない場面がある。普段のChromeを使えば既存タブのセッションをそのまま引き継げるのに対し、独自内蔵ブラウザを使うアプローチではセッションが分断されてしまうという使い勝手の差が生じている。
+
+なお、Codexに関して一次資料（ChatGPT Learn）では「ChatGPTデスクトップアプリの内蔵ブラウザ上で、ChatGPT WorkやCodexがこれらのツールを利用できる」と記載されている[^13]。これはCodexがChatGPTデスクトップアプリの内蔵ブラウザ上でSite toolsを使えるという話であり、Codexアプリ独自の内蔵ブラウザである一次情報ではない。Codexアプリが独自の内蔵ブラウザによって日常のChromeとセッションが切れるかについては、一次情報としては未確認だ[^14]。
 
 ※なお、今回の比較は各社の公開ヘルプや公式ドキュメントなどの一次資料に基づいており、本ローカル環境でClaudeやChatGPTデスクトップアプリの全挙動を実地検証したわけではない。一次資料で確認できる事実関係を中心に整理している。
 
@@ -85,11 +87,11 @@ WebMCPを取り巻く現状を整理すると、以下のようになる。
 - **実装アプローチの分岐**: 「どのブラウザ環境で動かすか」によって使い勝手と設計が分かれている。
   - **Cloudflare**: 供給側として、サーバーサイドのマネージドブラウザから既存サイトの機能をエージェントに橋渡しする。
   - **Claude (Claude in Chrome)**: 普段のChromeセッションに乗ることで既存のログイン状態を引き継ぐ（現時点の公式ドキュメントではUI操作中心）。
-  - **ChatGPT / Codex (Site tools)**: WebMCP標準を採用しているが、アプリ独自の内蔵ブラウザ限定のため日常のChromeセッションと分断される。
+  - **ChatGPT (Site tools)**: WebMCP標準を採用しているが、アプリ独自の内蔵ブラウザ限定のため日常のChromeセッションと分断される（※Codex単体での独自内蔵ブラウザ動作は一次未確認）。
 
 Webページが人間だけでなくAIエージェントにとっても「操作しやすい窓口」を開放していく流れは確実に進んでいるし、開発をする上でAIに操作させる流れは来るだろう。今後はなんとかかんとかで締める。
 
-[^1]: Model Context Protocol の略。サーバーとし JSON を返却する
+[^1]: Model Context Protocol の略。サーバーとして JSON を返す。
 [^2]: サーバー側MCPの動向およびセキュリティ脅威に関する研究については、Hou, X., Zhao, Y., Wang, S., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278 ( https://doi.org/10.48550/arXiv.2503.23278 ) の摘要などを参照（※本論文はサーバー側MCPに関する研究であり、WebMCPそのものの論文ではない）。
 [^3]: W3C Web Machine Learning Community Group. "Web Model Context Protocol (WebMCP) - Draft Community Group Report". https://webmachinelearning.github.io/webmcp/ (GitHub: https://github.com/webmachinelearning/webmcp)
 [^4]: 命令的APIの詳細については Google Chrome. "WebMCP Imperative API". https://developer.chrome.com/docs/ai/webmcp/imperative-api を参照。
@@ -101,3 +103,5 @@ Webページが人間だけでなくAIエージェントにとっても「操作
 [^10]: Anthropic. "Claude in Chrome is now generally available". https://claude.com/blog/claude-in-chrome-generally-available
 [^11]: Zero Trust（Cloudflare Access 等）環境において、Claude in Chrome 等がデバイス証明書やポスチャ確認などのデバイス信頼（Device Trust）要件を透過的に満たせるかどうかは各社公式一次情報でも未確認。
 [^12]: OpenAI. "Using site tools in the ChatGPT desktop app". https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app
+[^13]: ChatGPT Learn. "WebMCP". https://learn.chatgpt.com/docs/webmcp （「In the built-in browser in the ChatGPT desktop app, ChatGPT Work and Codex can discover and use these tools when they are available.」とあり、CodexがChatGPT desktopの内蔵ブラウザ上でSite toolsを使えるという記述であり、Codexアプリ独自の内蔵ブラウザの存在を示す一次情報ではない）。
+[^14]: Codexアプリが独自の内蔵ブラウザを備えており日常のChromeとセッションが切れるかについては、公式一次資料で未確認。
