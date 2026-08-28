@@ -1,12 +1,12 @@
 ---
-title: "WebMCPとは何か：ブラウザとAIエージェントをつなぐ新標準の現在地"
+title: "WebMCPとは何か"
 emoji: "🌐"
 type: "tech"
 topics: ["webmcp", "mcp", "ai", "chrome", "agent"]
 published: false
 ---
 
-最近、AIエージェント界隈で「MCP（Model Context Protocol）」という言葉をよく耳にするようになりました。Anthropicが提唱したMCPは、LLMにローカルファイルやデータベース、APIなどのツールを繋ぎ込む仕組みとして急速に普及しています。
+「MCP[^1]」という言葉は、AIをなんとなく使うようになってからいつのまにか定着した。Anthropicが提唱したMCPは、LLMにローカルファイルやデータベース、APIなどのツールを繋ぎ込む仕組みとして急速に普及しています。
 
 そんな中、ブラウザの標準化コミュニティや各社のプロダクトから「**WebMCP**」という新しい動きが出てきました。
 
@@ -104,3 +104,5 @@ Webページが人間だけでなくAIエージェントにとっても「操作
 - Anthropic. "Claude in Chrome is now generally available". https://claude.com/blog/claude-in-chrome-generally-available
 - Hou, X., Zhao, Y., Wang, S., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278. https://doi.org/10.48550/arXiv.2503.23278
   （※本論文はサーバー側MCPの動向およびセキュリティ脅威に関する研究であり、WebMCPそのものの論文ではありません。サーバー側MCPとの対比・背景整理のために摘要を確認しています）
+
+  ^1 Model Context Protocol の略。サーバーとしjsonを返却する
