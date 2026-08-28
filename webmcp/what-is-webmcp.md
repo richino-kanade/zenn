@@ -102,5 +102,5 @@ Webページが人間だけでなくAIエージェントにとっても「操作
 - OpenAI. "Using site tools in the ChatGPT desktop app". https://help.openai.com/en/articles/20001423-using-site-tools-in-the-chatgpt-desktop-app
 - Anthropic. "Get started with Claude in Chrome". https://support.claude.com/en/articles/12012173-get-started-with-claude-in-chrome
 - Anthropic. "Claude in Chrome is now generally available". https://claude.com/blog/claude-in-chrome-generally-available
-- Hou, X., Zhao, Y., Wang, Z., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278. https://doi.org/10.48550/arXiv.2503.23278
+- Hou, X., Zhao, Y., Wang, S., & Wang, H. (2025). "Model Context Protocol (MCP): Landscape, Security Threats, and Future Research Directions." *arXiv preprint* arXiv:2503.23278. https://doi.org/10.48550/arXiv.2503.23278
   （※本論文はサーバー側MCPの動向およびセキュリティ脅威に関する研究であり、WebMCPそのものの論文ではありません。サーバー側MCPとの対比・背景整理のために摘要を確認しています）
